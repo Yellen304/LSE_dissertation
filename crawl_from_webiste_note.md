@@ -95,6 +95,10 @@ class WundergroundSpider(scrapy.Spider):
             self.logger.error(f"Failed to parse {response.url}: {e}")
 
         yield data
+
+       ### 命令行输入如何输出的方式
+       scrapy crawl wunderground -o weather_data.csv
+
 ```
 
 
