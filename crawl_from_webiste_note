@@ -1,0 +1,11 @@
+# 基于Python爬取天气数据信息
+
+## 摘要
+1. 如何打开网页的字符串文本（request.get）
+2. 如何对获取的字符串进行数据提取（xpath）
+3. 数据的存储与数据标准化处理
+
+| 以公开天气数据库Weather Underground(https://www.wunderground.com/history)为例 |
+
+## 1. 如何打开网页的字符串文本
+
