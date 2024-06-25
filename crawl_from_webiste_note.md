@@ -109,3 +109,22 @@ class WundergroundSpider(scrapy.Spider):
 ## Appendix A. Code Dictionary
 [xpath]
 - 对获取的字符串进行数据提取
+
+【第一次集中问题】
+1. 有没有文件可以同时运行终端和编辑器的内容
+2.  genspider是scrapy库中的一个指令吗
+3. 什么是标准库中的模块
+4. 什么是爬虫“类”
+5. 什么是URL列表：就是网址
+6.  定义初始化方式 def __init__(self, *args, **kwargs)的意思
+    - 一种可变参数的构建方式， 没有指定key的参数会被储存在args里，指定key的参数被储存在kwargs里 [https://blog.csdn.net/Jiana_Feng/article/details/107861130]
+  - 两种参数的实际运用 [https://cloud.tencent.com/developer/news/1349715]
+7. 如何根据实际的URL地址来生成识别URL的字符串
+   - 如果实际上的URL不是简单的"https://www.wunderground.com/history/monthly/{city}/date/{year}-{month}"怎么办，比如weather underground中的曼彻斯特2018年6月的URL是‘https://www.wunderground.com/history/daily/EGCC/date/2018-6’，这时候就需要回到上一步的地址代码列表，使用适当的城市代码来表示城市。例如"UK": {"Manchester": "EGCC", "London": "EGLL", "Birmingham": "EGBB"},
+8. 什么是响应：request对对象发出请求
+9. 看不懂它在【检查】页面提取的数据是在哪里找到的，我怎么没看见
+10. 终端不可以复制粘贴吗
+11. crawl这个指令在scrapy库中无法找到 [https://blog.csdn.net/qq_45476428/article/details/108719476]
+
+**在obsidian中加入```的作用
+
