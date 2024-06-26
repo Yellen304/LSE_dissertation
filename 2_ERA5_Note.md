@@ -68,3 +68,6 @@ def extract_time_series(lon, lat):
     return csv_data
 ```
 4. 得到csv文件，进行分析
+
+Reference
+(1)https://cloud.tencent.com/developer/article/2185400
