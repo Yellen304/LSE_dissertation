@@ -3,16 +3,18 @@
 
 
 ## 摘要
-### 1. 基于scrapy框架[ChatGPT]
+1. 基于scrapy框架[ChatGPT]
 
-### 2. 基于不知道什么网络上找到的教程框架[https://blog.csdn.net/chen_5213/article/details/135129613]
-1. 如何打开网页的字符串文本（request.get）
-2. 如何对获取的字符串进行数据提取（xpath）
-3. 数据的存储与数据标准化处理
+2. 基于不知道什么网络上找到的教程框架[https://blog.csdn.net/chen_5213/article/details/135129613]
+- 如何打开网页的字符串文本（request.get）
+- 如何对获取的字符串进行数据提取（xpath）
+- 数据的存储与数据标准化处理
+3. 基于beautiful soup4 框架
+
 
 Appendix A. Code Dictionary
 
-***
+****
 ### 基于scrapy框架
 ```Python
 
@@ -102,8 +104,69 @@ class WundergroundSpider(scrapy.Spider):
 ```
 
 
-### 基于不知道什么网络上找到的教程框架[https://blog.csdn.net/chen_5213/article/details/135129613]
-1. 如何打开网页的字符串文本
+### 基于Beautiful Soup框架
+```
+# 从模块或包中调用函数、变量(from module or package import variable or function)
+## beautifulsoup适用于解析HTML和XML文件的库
+from bs4 import BeautifulSoup
+import random
+## time 提供各种与时间相关的函数
+import time
+## selenium 是用于自动化浏览器操作的工具（注释：使程序等待网页五秒钟）
+from selenium import webdriver
+
+# 定义一段函数
+## def用于定义函数，函数是一段可以重复使用的代码块，由函数名称和参数组成。语法为def function_name(parameters): ///return value
+def fetch_page_content_with_selenium(url:str):
+    # 使用Selenium启动浏览器
+    driver = webdriver.Edge()
+    driver.get(url)
+
+    # 等待页面加载完成
+    time.sleep(5)  # 你可以根据需要调整等待时间
+
+    # 获取页面源代码
+    page_source = driver.page_source
+
+    # 使用BeautifulSoup解析网页内容
+    soup = BeautifulSoup(page_source, 'html.parser')
+
+    # 关闭浏览器
+    driver.quit()
+
+    return soup
+def crawl(website:str="https://www.wunderground.com/history/monthly/ZBNY/date/2024-6")->float:
+    soup=fetch_page_content_with_selenium(website)
+    raw=str(soup.contents)
+    with open(website[website.index('-')+1:]+".txt",'w',encoding='utf-8')as f:
+        f.write(raw)
+    return 0
+def parse(fileName:str)->float:
+    with open(fileName,'r',encoding='utf-8') as f:
+        raw=f.read()
+    if 'Avg Tem' not in raw:
+        return -1
+    raw=raw[raw.index("Avg Temperature"):]
+    raw=raw[:raw.index("</tr>")]
+    raw=raw.split('</td>')
+    raw=raw[1]
+    raw=raw[raw.index('>')+1:]
+    return float(raw)
+    
+
+if __name__=='__main__':
+    answer=""
+    for i in range(6,10):
+        # avgtemp=crawl("https://www.wunderground.com/history/monthly/ZBNY/date/2018-"+str(i))
+        avgtemp=parse(str(i)+".txt")
+        print("%03d %.2f"%(i,avgtemp))
+        answer+="%d,%.2f\n"%(i,avgtemp)
+        # time.sleep(4)
+    with open('data.csv','w')as f:
+        f.write(answer)
+        
+
+```
 
 
 ## Appendix A. Code Dictionary
