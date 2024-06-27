@@ -115,12 +115,13 @@ import time
 ## selenium 是用于自动化浏览器操作的工具（注释：使程序等待网页五秒钟）
 from selenium import webdriver
 
-# 定义一段函数
-## def用于定义函数，函数是一段可以重复使用的代码块，由函数名称和参数组成。语法为def function_name(parameters): ///return value
+# 下载源代码
+## def用于定义函数，函数是一段可以重复使用的代码块，由函数名称和参数组成。
 def fetch_page_content_with_selenium(url:str):
     # 使用Selenium启动浏览器
-    driver = webdriver.Edge()
-    driver.get(url)
+    ## webdriver 是 selenium 调取出来的一个函数吗，不是是调用出来的一个模块
+    driver = webdriver.Edge()  # 使用edge浏览器的类
+    driver.get(url) # 导航到指定的URL
 
     # 等待页面加载完成
     time.sleep(5)  # 你可以根据需要调整等待时间
@@ -135,6 +136,10 @@ def fetch_page_content_with_selenium(url:str):
     driver.quit()
 
     return soup
+
+# 将上一步获取到的源代码保存到txt文件中， 上一步是获取文件，这一步是处理文件
+## 这个code block的逻辑是输入一个网站URL,selenium函数获取网页内容，soup.content获取对象的全部内容并转换为字符串，创建一个空文件，把得到的字符串写入文件
+### 
 def crawl(website:str="https://www.wunderground.com/history/monthly/ZBNY/date/2024-6")->float:
     soup=fetch_page_content_with_selenium(website)
     raw=str(soup.contents)
