@@ -156,17 +156,19 @@ def crawl(website:str="https://www.wunderground.com/history/monthly/ZBNY/date/20
     # crawl函数返回0一般代表函数执行成功，因为函数必须要返回东西才能证明它跑完了
     return 0
 
-
+# parse函数接收文件名，读取字符串，返回浮点数
 def parse(fileName:str)->float:
+    # with open(fileName, 'r', encoding='utf-8') as f: 以只读模式打开文件
     with open(fileName,'r',encoding='utf-8') as f:
         raw=f.read()
     if 'Avg Tem' not in raw:
         return -1
-    raw=raw[raw.index("Avg Temperature"):]
-    raw=raw[:raw.index("</tr>")]
-    raw=raw.split('</td>')
-    raw=raw[1]
-    raw=raw[raw.index('>')+1:]
+    else:
+    raw=raw[raw.index("Avg Temperature"):]    # 从“Avg Temperature”开始截取字符串，并覆盖掉原来的‘raw’变量。此处冒号在后面指从指定索引位置截取到字符串末尾
+    raw=raw[:raw.index("</tr>")] # 截取到</tr>结束的部分。此处冒号在前面指从字符串的开头截取到指定索引位置
+    raw=raw.split('</td>') # 通过</td>分割字符串，得到一个包含所有分割部分的列表的raw
+    raw=raw[1] # 获取分割后的第二部分，一般就是内容所在的地方
+    raw=raw[raw.index('>')+1:] 
     return float(raw)
     
 
