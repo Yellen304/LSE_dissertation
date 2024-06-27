@@ -168,12 +168,13 @@ def parse(fileName:str)->float:
     raw=raw[:raw.index("</tr>")] # 截取到</tr>结束的部分。此处冒号在前面指从字符串的开头截取到指定索引位置
     raw=raw.split('</td>') # 通过</td>分割字符串，得到一个包含所有分割部分的列表的raw
     raw=raw[1] # 获取分割后的第二部分，一般就是内容所在的地方
-    raw=raw[raw.index('>')+1:] 
-    return float(raw)
+    raw=raw[raw.index('>')+1:]  # 从<td>的>开始截取
+    return float(raw) #返回浮点数
     
-
+# 主程序处理循环多个月份的数据，并将结果保存到CSV文件中
+# 这部分代码进在脚本作为主程序运行时执行
 if __name__=='__main__':
-    answer=""
+    answer=""  # 初始化一个空字符来保存结果
     for i in range(6,10):
         # avgtemp=crawl("https://www.wunderground.com/history/monthly/ZBNY/date/2018-"+str(i))
         avgtemp=parse(str(i)+".txt")
