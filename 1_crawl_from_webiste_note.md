@@ -137,15 +137,26 @@ def fetch_page_content_with_selenium(url:str):
 
     return soup
 
+
 # 将上一步获取到的源代码保存到txt文件中， 上一步是获取文件，这一步是处理文件
 ## 这个code block的逻辑是输入一个网站URL,selenium函数获取网页内容，soup.content获取对象的全部内容并转换为字符串，创建一个空文件，把得到的字符串写入文件
-### 
+    ## ->float 返回浮点数，虽然此处最后返回的是0
 def crawl(website:str="https://www.wunderground.com/history/monthly/ZBNY/date/2024-6")->float:
+    ## selenium函数返回的BS对象soup包含了整个网页的解析树，可以对该soup进行操作
     soup=fetch_page_content_with_selenium(website)
+    ## 返回一个列表，并将所有内容转换为字符串
     raw=str(soup.contents)
+    ## website[website.index('-') + 1:] 从 website 中找到第一个 - 符号后面的部分，这部分通常是具有特定含义的字符串（比如日期或标识符）。并于后面的.txt 组合成一个文件名
+    ## 下面是两步的一个简写
+    ## file_name = website[website.index('-') + 1:] + ".txt" # 生成文件名
+    ## with open(file_name, 'w', encoding='utf-8') as f:
+    f.write(raw) # 打开文件名写入内容，把之前转换成字符串的raw内容写入文件中
     with open(website[website.index('-')+1:]+".txt",'w',encoding='utf-8')as f:
         f.write(raw)
+    # crawl函数返回0一般代表函数执行成功，因为函数必须要返回东西才能证明它跑完了
     return 0
+
+
 def parse(fileName:str)->float:
     with open(fileName,'r',encoding='utf-8') as f:
         raw=f.read()
