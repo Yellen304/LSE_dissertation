@@ -105,7 +105,7 @@ class WundergroundSpider(scrapy.Spider):
 
 
 ### 基于Beautiful Soup框架
-```
+```Python
 # 从模块或包中调用函数、变量(from module or package import variable or function)
 ## beautifulsoup适用于解析HTML和XML文件的库
 from bs4 import BeautifulSoup
