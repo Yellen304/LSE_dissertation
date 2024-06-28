@@ -5,14 +5,14 @@
 - [Excel 数据]-[删除重复值]
 
 2. 通过Python自动获取100+城市的经纬度信息
-- [将城市看作一个范围]https://blog.csdn.net/esa72ya/article/details/114642127 （不全）
-- [将城市简化为中心点]https://latitude.to/map/cn/china/cities/shantou#google_vignette
+  - [将城市看作一个范围]https://blog.csdn.net/esa72ya/article/details/114642127 （不全）
+  - [将城市简化为中心点]https://latitude.to/map/cn/china/cities/shantou#google_vignette
 
-需要做的步骤
-- 把检查页面打印并保存到txt
-- 把txt中的中文识别为英文
-- 从excel的第一排开始，找到相关的名字，然后读取附近的数字，再输出到excel的后面
-- 如果使用英文匹配，如何区别台州（浙江）和泰州（江苏），玉林（广西）与榆林（陕西），宿州（安徽）与苏州（江西），滨州（山东）和郴州（湖南）
+  需要做的步骤
+  - 把检查页面打印并保存到txt
+  - 把txt中的中文识别为英文
+  - 从excel的第一排开始，找到相关的名字，然后读取附近的数字，再输出到excel的后面
+  - 如果使用英文匹配，如何区别台州（浙江）和泰州（江苏），玉林（广西）与榆林（陕西），宿州（安徽）与苏州（江西），滨州（山东）和郴州（湖南）
 
 3. 通过Python自动在CDS Toolbox中循环获取需要的天气数据
 
