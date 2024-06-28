@@ -1,10 +1,10 @@
 本章的目的在于将CHARLS中匹配的城市从Stata中提取出来，通过Python自动获取100+城市的经纬度信息，通过Python自动在CDS Toolbox中循环获取需要的天气数据
 
-1. 'CHARLS中匹配的城市从Stata中提取出来'
+1. `CHARLS中匹配的城市从Stata中提取出来`
 - 将所需要的数据export成EXCEL
 - [Excel 数据]-[删除重复值]
 
-2. '通过Python自动获取100+城市的经纬度信息'
+2. `通过Python自动获取100+城市的经纬度信息`
   - [将城市看作一个范围]https://blog.csdn.net/esa72ya/article/details/114642127 （不全）
   - [将城市简化为中心点]https://latitude.to/map/cn/china/cities/shantou#google_vignette
 
