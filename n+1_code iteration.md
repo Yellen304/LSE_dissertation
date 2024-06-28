@@ -1,14 +1,6 @@
 ## 3_Get location data
 **version3.1.0**
 ```Python
-现在达成的目标：返回了一个值
-需要改进的部分（ver3.1.1）：
-- crawl部分没太明白逻辑
-- 识别两部分的数据：经度和纬度
-- 得到的数据是一个范围，因此不是float，如何打印这类文件
-- 如何导入到csv文件中
-```
-```Python
 # 逻辑是先用selenium和soup得到网页，用crawl获取网页内容，parse解析需要的部分，main进行循环
 
 # import 需要用到的库和函数
@@ -88,3 +80,17 @@ if longitude != -1:
 else:
         print("Failed to parse the longitude")
 ```
+
+```Python
+现在达成的目标：返回了一个值
+需要改进的部分（ver3.1.1）：
+- crawl部分没太明白逻辑
+- 识别两部分的数据：经度和纬度
+- 得到的数据是一个范围，因此不是float，如何打印这类文件
+- 如何导入到csv文件中
+```
+**version3.1.1**
+
+
+
+
