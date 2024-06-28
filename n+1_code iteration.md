@@ -180,12 +180,6 @@ def parse2(fileName:str)->str:
 if __name__=='__main__':
     answer=""  # 初始化一个空字符来保存结果
 
-### 猜想导出结果的代码是
-# longitude=crawl("https://blog.csdn.net/esa72ya/article/details/114642127")
-# longitude=parse(str(1)+".txt")
-# print("%03d %.2f"%(1,longitude))
-### 
-
 #####################################################################ChatGPT给出的结果
 # crawl输入一个网站，经过了selenium那个block得到soup然后存起来，再用parse和parse2找到想要的结果（一个是raw，一个是war）
 crawl("https://blog.csdn.net/esa72ya/article/details/114642127")
