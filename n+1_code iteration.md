@@ -90,7 +90,7 @@ else:
 - 如何导入到csv文件中
 ```
 **version3.1.1**
-```
+```Python
 # 逻辑是先用selenium和soup得到网页，用crawl获取网页内容，parse解析需要的部分，main进行循环
 
 # import 需要用到的库和函数
