@@ -13,8 +13,17 @@
   - 把txt中的中文识别为英文
   - 从excel的第一排开始，找到相关的名字，然后读取附近的数字，再输出到excel的后面
   - 如果使用英文匹配，如何区别台州（浙江）和泰州（江苏），玉林（广西）与榆林（陕西），宿州（安徽）与苏州（江西），滨州（山东）和郴州（湖南）
+  - 计算城市中心
 
-3. 通过Python自动在CDS Toolbox中循环获取需要的天气数据
+3. 通过Python自动在CDS Toolbox中循环获取需要的天气数据 （循环次数129）
+  - 从Excel中读取第一个城市的经纬度信息
+  - 在CDS Toolbox中输入，选择时间和所需要的所有天气数据，下载成为一个单独的excel表格
+  - 重复直到100+城市的天气数据被下载完成
+
+4. 通过Python调取stata文件中每一个人的采访时间数据，对Excel进行分析 （循环次数8000+）
+   - 使用python调取第一列人的采访时间和居住地点（英文）
+   - 调取地点excel，打开文件，根据时间提取当月的平均温度、累计高温
+   - 返回温度信息到stata中
 
 
 Link for Python dictionary:[https://subsequent-drop-695.notion.site/Python-Dictionary-853b7175d8c04402adcb426ea0d50637]
