@@ -474,6 +474,14 @@ def create_city_temperature(geo_excel:str='cities_with_coordinates.xlsx'):
 
 # 调用函数
 create_city_temperature()
+```
+```Python
+现在达成的成就：该代码可以把所要求的所有数据都下载下来了
+下一步：
+- 继续探索如何下载到一个单独的文件夹中
+- 想要得到的数据：该样本受访所在月的平均气温和最高气温超过32度的天数，如果能找到日数据就是前七天的平均气温
+- 如何把这边的EXCEL数据和STATA的数据进行匹配
+
 
 ```
 
