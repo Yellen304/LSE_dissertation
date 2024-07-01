@@ -400,6 +400,8 @@ def create_city_temperature(geo_excel:str='cities_with_coordinates.xlsx',out_exc
 - 缺少正确的文件名格式。
 - print 语句位置错误。
 - 文件名和列名的引用需要用格式化字符串或字符串拼接
+- 后面加入try来调试的原因
+- 为什么也没有报错也没有任何显示
 ```
 **version3.1.3**
 
