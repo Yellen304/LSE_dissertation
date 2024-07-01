@@ -321,13 +321,89 @@ if __name__ == '__main__':
 ```Python
 现在达成的目标：得到了EXCEL中每一个城市的经纬度数据
 需要改进的部分（ver3.1.3）
-- 读取每个城市的经纬度信息
+- 读取每个城市的经纬度信息嵌入到API读取信息中
 - 使用API接到CDS toolbox，输入经纬度信息，返回需要的温度（需要决定什么数据）
-- 循环生成一个地区的xlsx文件
+- 调用EXCEL文件中的city_english，生成地区的xlsx文件名
+- 将一个地区的数据导入到EXCEL文件中
 遇到的问题
 
+
+```
+**一个充满错误，自己写的version3.1.3（wrong）版本，看你是否能察觉出来错误**
+```Python
+# 步骤是：提取出来一个城市经纬度，打开CDS，输入经纬度，需要的温度信息
+# toolbox的网址是https://cds.climate.copernicus.eu/toolbox-editor/320203/01-retrieve-data
+
+# 下载该city的数据
+# import the CDS Toolbox library
+import cdsapi
+
+# 创建一个 CDS API 客户端
+c = cdsapi.Client()
+
+def create_city_temperature(geo_excel:str='cities_with_coordinates.xlsx',out_excel:str):
+#获取该city的经纬度数据
+# 用pandas读取Excel文件，并将其存储在DataFrame对象“df”中
+    df = pd.read_excel(geo_excel)
+
+    # 遍历DataFrame中的每个城市
+    for city in df['city_Chinese']:
+       
+        # 发起数据请求
+        c.retrieve(
+            'reanalysis-era5-single-levels',  # 数据集名称
+            {
+                'product_type': 'reanalysis',  # 产品类型
+                'variable': '2m_temperature',  # 变量名称
+                'year': ['2018', '2020'], # 年份
+                'month': ['06', '07', '08'], # 月份
+                'day': [
+                '01', '02', '03', '04', '05', '06',
+                '07', '08', '09', '10', '11', '12',
+                '13', '14', '15', '16', '17', '18',
+                '19', '20', '21', '22', '23', '24',
+                '25', '26', '27', '28', '29', '30',
+                '31'],  # 日期
+                'time': '12:00',  # 时间
+                'format': 'netcdf',  # 数据格式
+                ## 提取
+                'area': [df['north'], df['west'], df['south'], df['east']],  # 地理区域 (北纬, 西经, 南纬, 东经)			
+
+            },
+
+            df['city_eng']+".nc"  # 输出文件名
+            print("数据下载完成，文件名为  df['city_eng']+".nc" )
+        )
+        #把nc文件改为csv文件
+        import xarray as xr
+        import pandas as pd
+
+        # 使用 xarray 打开 NetCDF 文件
+        data = xr.open_dataset(df['city_eng']+".nc")
+
+        # 将 NetCDF 数据转换为 Pandas DataFrame
+        # 假设我们只关心温度数据
+        temperature_data = data['t2m'].to_dataframe().reset_index()
+
+        # 将 DataFrame 保存为 CSV 文件
+        temperature_data.to_csv(df[city_eng]+'.csv', index=False)
+
+        print("数据已保存为 'df[city_eng]+'.csv'')
+    return "已完成"
+
+```
+```Python
+问题在于：
+- 缺少必要的导入语句。
+- 在读取地理区域的经纬度数据时，应该根据城市动态获取。
+- c.retrieve 是一个阻塞操作，应该在一个循环中逐个处理城市的数据请求。
+- 缺少正确的文件名格式。
+- print 语句位置错误。
+- 文件名和列名的引用需要用格式化字符串或字符串拼接
 ```
 **version3.1.3**
+
+
 
 
 
