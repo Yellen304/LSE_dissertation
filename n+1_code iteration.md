@@ -401,7 +401,7 @@ def create_city_temperature(geo_excel:str='cities_with_coordinates.xlsx',out_exc
 - print 语句位置错误。
 - 文件名和列名的引用需要用格式化字符串或字符串拼接
 - 后面加入try来调试的原因
-- 为什么也没有报错也没有任何显示
+- 为什么也没有报错也没有任何显示：因为没有调用函数！！
 ```
 **version3.1.3**
 ```Python
@@ -414,6 +414,10 @@ import cdsapi
 # 用于导成CSV文件
 import xarray as xr
 import pandas as pd
+ # 用于文件夹路径操作
+import os 
+# 用于文件清理
+import glob  
 
 # 创建一个 CDS API 客户端
 c = cdsapi.Client()
@@ -429,10 +433,9 @@ def create_city_temperature(geo_excel:str='cities_with_coordinates.xlsx'):
         # 先遍历所有需要的信息：
         city_chinese = row['city_Chinese']
         city_eng = row['city_eng']
-        north = row['north']
-        west = row['west']
-        south = row['south']
-        east = row['east']
+        longitude=row['longitude']
+        latitude=row['latitude']
+
         
 
         # 发起数据请求
@@ -447,7 +450,7 @@ def create_city_temperature(geo_excel:str='cities_with_coordinates.xlsx'):
                 'time': '12:00',  # 时间
                 'format': 'netcdf',  # 数据格式
                 ## 提取
-                'area': [north,west,south,east],  # 地理区域 (北纬, 西经, 南纬, 东经)			
+                'area': [latitude,longitude,latitude+0.0001,longitude+0.0001],  # 地理区域 (北纬, 西经, 南纬, 东经)			
 
             },
             f"{city_eng}.nc"  # 输出文件名
@@ -466,9 +469,11 @@ def create_city_temperature(geo_excel:str='cities_with_coordinates.xlsx'):
         # 将 DataFrame 保存为 CSV 文件
         temperature_data.to_csv(f"{city_eng}.csv", index=False)
 
-        print(f"数据已保存为 {city_eng}.nc")    
+        print(f"数据已保存为 {city_eng}.csv")   
     return "已完成"
 
+# 调用函数
+create_city_temperature()
 
 ```
 
