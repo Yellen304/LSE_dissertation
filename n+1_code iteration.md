@@ -220,10 +220,113 @@ else:
 ```
 **version3.1.2**
 ```
+# 逻辑是先用selenium和soup得到网页，用crawl获取网页内容，parse解析需要的部分，main进行循环
+
+# import 需要用到的库和函数
+import pandas as pd # type: ignore
+from bs4 import BeautifulSoup
+import time
+from selenium import webdriver
+
+# selenium 函数读取网页 （输入url，提到driver里，提到page.source里，提到soup里，最终返回的是一个方便解析的解析树版本）
+    # 定义函数
+def city_geographic_selenium(url:str):
+    # 打开浏览器（需要定义使用哪个浏览器的类）
+    driver=webdriver.Edge()
+    driver.get(url)
+    # 网页停留五秒
+    time.sleep(2)
+    # 获取源代码
+    page_source=driver.page_source
+    # 保存到soup里
+    soup=BeautifulSoup(page_source,'html.parser')
+    # 需要关闭浏览器
+    driver.quit()
+    return soup
+# crawl 函数处理文件（此处是保存）(输入的是website，然后套用上一个block得到了soup，提到raw里，创建文件名filename，通过`f`把raw的内容提到filename里，)
+def crawl(website:str="https://blog.csdn.net/esa72ya/article/details/114642127")->float:
+    # 通过上一个code block得到了源代码
+    soup=city_geographic_selenium(website)
+    # 把源代码保存到txt文件中（分成两步）
+        ##把源代码变成字符串，使用soup里的contents这个属性
+    raw=str(soup.contents)
+    # website.split('/'): 将 website 字符串按照 / 进行分割，返回一个列表。[-1]: 取分割后列表的最后一个元素，即 website 字符串中最后一个 / 后面的部分，通常是文件名或资源名
+    file_name = website.split('/')[-1] + ".txt"
+    # 把字符串写进文件里：open(file_name, 'w', encoding='utf-8'): 打开一个文件 file_name，以写入模式 ('w'，即写入新文件或覆盖已有文件) 打开，指定编码为 UTF-8。讲打开的文件对象赋值给变量f，关闭文件，将变量raw的内容写入f中
+    with open(file_name, 'w', encoding='utf-8') as f:
+        f.write(raw)
+
+    return 0
 
 
+# parse 函数解析文件得到想要的内容（经度） （输入的是filename，提到raw里，开始进行匹配，匹配成功的话返回希望找到的数据raw）
+def parse(fileName:str,city:str,index:int)->str:
+    # 调用txt文件
+    # 用只读模式打开文件，赋值给变量f，读取全部内容储存到变量raw中
+    with open(fileName,'r',encoding='utf-8') as f:
+        # 此处的read（）里不能有东西，
+        raw=f.read()
+    # 使用if函数让循环可以跑
+    if city not in raw:
+            return -1
+    ## parse函数合并：使用index来定位第一部分还是第二部分
+    else:
+    # 对文件内容进行解析
+        # 找到想要的内容“汕头”，只留下汕头到字符串结尾
+        raw=raw[raw.index(city):]
+        # 找到第一个tr，留下汕头到tr
+        raw=raw[:raw.index("</tr>")]
+        # 通过td把结果分割开
+        raw=raw.split('</td>') 
+        if len(raw) > index:
+            raw = raw[index]
+            raw = raw[raw.index('>') + 1:]
+            return str(raw)
+        else:
+            return -1
+
+def update_excel_with_coordinates(excel_file:str='4_city list.xlsx',txt_file = '114642127.txt',output_excel_file:str='cities_with_coordinates.xlsx'):
+     # 用pandas读取Excel文件，并将其存储在DataFrame对象“df”中
+    df = pd.read_excel(excel_file)
+     # 初始化空列表用于储存经纬度信息
+    coordinates= []
+    # 遍历DataFrame中的每个城市
+    for city in df['city_Chinese']:
+        longitude = parse(txt_file, city, 1)  # 获取经度
+        latitude = parse(txt_file, city, 2)  # 获取纬度
+        if longitude != -1 and latitude != -1:
+            coordinates.append((longitude, latitude))
+        else:
+            coordinates.append(("Not Found", "Not Found"))
+    df['longitude'] = [coord[0] for coord in coordinates]
+    df['latitude'] = [coord[1] for coord in coordinates]
+    df.to_excel(output_excel_file, index=False)    
+    
+
+# 使用示例
+
+    website = "https://blog.csdn.net/esa72ya/article/details/114642127"
+    excel_file = r'C:\Users\Yalin\Desktop\4_city_list.xls'
+    output_excel_file = 'cities_with_coordinates.xlsx'
+    update_excel_with_coordinates(excel_file, txt_file, output_excel_file)
+
+if __name__ == '__main__':
+    excel_file = r'C:\Users\Yalin\Desktop\4_city_list.xls'
+    output_excel_file = 'cities_with_coordinates.xlsx'
+    txt_file = '114642127.txt'
+    update_excel_with_coordinates(excel_file, txt_file, output_excel_file)
+    print(f"Updated Excel file saved as {output_excel_file}")
 ```
 
+```Python
+现在达成的目标：得到了EXCEL中每一个城市的经纬度数据
+需要改进的部分（ver3.1.3）
+- 读取每个城市的经纬度信息
+- 接到CDS toolbox，输入经纬度信息，返回需要的温度
+- 循环生成一个地区的xlsx文件
+遇到的问题
 
+```
+**version3.1.3**
 
 
