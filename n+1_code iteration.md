@@ -404,7 +404,73 @@ def create_city_temperature(geo_excel:str='cities_with_coordinates.xlsx',out_exc
 - 为什么也没有报错也没有任何显示
 ```
 **version3.1.3**
+```Python
+# 步骤是：提取出来一个城市经纬度，打开CDS，输入经纬度，需要的温度信息
+# toolbox的网址是https://cds.climate.copernicus.eu/toolbox-editor/320203/01-retrieve-data
 
+# 下载该city的数据
+# import the CDS Toolbox library
+import cdsapi
+# 用于导成CSV文件
+import xarray as xr
+import pandas as pd
+
+# 创建一个 CDS API 客户端
+c = cdsapi.Client()
+
+
+def create_city_temperature(geo_excel:str='cities_with_coordinates.xlsx'):
+#获取该city的经纬度数据
+# 用pandas读取Excel文件，并将其存储在DataFrame对象“df”中
+    df = pd.read_excel(geo_excel)
+    print(f"开始处理 {geo_excel} 文件中的城市数据...")
+   
+    for i, row in df.iterrows():
+        # 先遍历所有需要的信息：
+        city_chinese = row['city_Chinese']
+        city_eng = row['city_eng']
+        north = row['north']
+        west = row['west']
+        south = row['south']
+        east = row['east']
+        
+
+        # 发起数据请求
+        c.retrieve(
+            'reanalysis-era5-single-levels',  # 数据集名称
+            {
+                'product_type': 'reanalysis',  # 产品类型
+                'variable': '2m_temperature',  # 变量名称
+                'year': ['2018', '2020'], # 年份
+                'month': ['06', '07', '08'], # 月份
+                'day': [str(d).zfill(2) for d in range(1, 32)], # 日期
+                'time': '12:00',  # 时间
+                'format': 'netcdf',  # 数据格式
+                ## 提取
+                'area': [north,west,south,east],  # 地理区域 (北纬, 西经, 南纬, 东经)			
+
+            },
+            f"{city_eng}.nc"  # 输出文件名
+        )
+        ## 
+        print(f"数据下载完成，文件名为  {city_eng}.nc" )
+        #把nc文件改为csv文件
+
+        # 使用 xarray 打开 NetCDF 文件
+        data = xr.open_dataset(f"{city_eng}.nc")
+
+        # 将 NetCDF 数据转换为 Pandas DataFrame
+        # 假设我们只关心温度数据
+        temperature_data = data['t2m'].to_dataframe().reset_index()
+
+        # 将 DataFrame 保存为 CSV 文件
+        temperature_data.to_csv(f"{city_eng}.csv", index=False)
+
+        print(f"数据已保存为 {city_eng}.nc")    
+    return "已完成"
+
+
+```
 
 
 
