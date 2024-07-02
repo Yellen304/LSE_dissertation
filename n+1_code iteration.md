@@ -489,7 +489,13 @@ create_city_temperature()
 - 如何获取每日最高气温与平均气温
     - 【0702】使用早上中午晚上的平均气温作为当日的温度，再计算该星期或该月的平均气温。累积超阈值温度为早中晚任何一个时间超过阈值时间即定义为1。
 
+补救措施
+- 一些可能可以使用的数据
+    - 数字开放平台提供NOAA数据：https://blog.csdn.net/qq_41325092/article/details/135342604
+    - NOAA数据库：https://blog.csdn.net/qq_39855224/article/details/112149945
 
+- 使用VPN修改地址
+    - https://vpn.nsspirt-cashf2.com/zh-cn/best-vpns-for-uk/#index_id10
 
 ```
 
