@@ -486,7 +486,9 @@ create_city_temperature()
     - 问题：单个用户单次只能下载四个，解决办法[https://blog.csdn.net/junlong750/article/details/113605759]
     - 解决办法1：把任务拆分成多个小块或多线程处理[https://blog.csdn.net/VictoriaLy/article/details/112912419]
     - 解决办法2：使用selenium函数模拟鼠标在网页直接进行操作（注意：一定要sleep！）
-```
+- 如何获取每日最高气温与平均气温
+    - 【0702】使用早上中午晚上的平均气温作为当日的温度，再计算该星期或该月的平均气温。累积超阈值温度为早中晚任何一个时间超过阈值时间即定义为1。
+
 
 
 ```
