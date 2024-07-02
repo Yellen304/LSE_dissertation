@@ -9,7 +9,8 @@ Toolbox最左边是已经写好的代码，自己创建的数据集。中间是�
 2. 进入写代码的界面
 [左边retrieve data]-[load]-[copy]
 3. 用CDS toolbox 提取某个经纬度的时序数据
-举个例子，下面是用CDS toolbox提取经纬度为（75，43）的2008-2017每天三个时段的数据。只需要在代码中修改你需要的时间地点
+[retrieve data]-[load]-[copy]
+举个例子，下面是用CDS toolbox提取经纬度为（75，43）的2018-2020中678三个月每天四个个时段的数据。只需要在代码中修改你需要的时间地点
 ```
 import cdstoolbox as ct
 
