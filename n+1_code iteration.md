@@ -491,8 +491,9 @@ create_city_temperature()
 
 补救措施
 - 一些可能可以使用的数据
-    - 数字开放平台提供NOAA数据：https://blog.csdn.net/qq_41325092/article/details/135342604
+    - 需要登陆的数字开放平台提供NOAA数据：https://blog.csdn.net/qq_41325092/article/details/135342604
     - NOAA数据库：https://blog.csdn.net/qq_39855224/article/details/112149945
+    - 收费的空气污染数据：https://bbs.pinggu.org/thread-11169689-1-1.html
 
 - 使用VPN修改地址
     - https://vpn.nsspirt-cashf2.com/zh-cn/best-vpns-for-uk/#index_id10
