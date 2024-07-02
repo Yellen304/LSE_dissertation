@@ -483,7 +483,8 @@ create_city_temperature()
 - 如何把这边的EXCEL数据和STATA的数据进行匹配
 遇到的问题：
 - 下载到第五个就一直保持queue的状态，正常情况下应该1-5分钟一个：
-    - 解决办法1：把任务拆分成多个小块
+    - 问题：单个用户单次只能下载四个，解决办法[https://blog.csdn.net/junlong750/article/details/113605759]
+    - 解决办法1：把任务拆分成多个小块或多线程处理[https://blog.csdn.net/VictoriaLy/article/details/112912419]
     - 解决办法2：使用selenium函数模拟鼠标在网页直接进行操作（注意：一定要sleep！）
 ```
 
