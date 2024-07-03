@@ -1,5 +1,5 @@
 ## 3_Get location data
-<details>
+
 **version3.1.0**
 ```Python
 # 逻辑是先用selenium和soup得到网页，用crawl获取网页内容，parse解析需要的部分，main进行循环
@@ -81,7 +81,7 @@ if longitude != -1:
 else:
         print("Failed to parse the longitude")
 ```
-<details>
+
 
 ```Python
 现在达成的目标：返回了一个值
@@ -91,6 +91,8 @@ else:
 - 得到的数据是一个范围，因此不是float，如何打印这类文件
 - 如何导入到csv文件中
 ```
+
+
 **version3.1.1**
 ```Python
 # 逻辑是先用selenium和soup得到网页，用crawl获取网页内容，parse解析需要的部分，main进行循环
@@ -207,6 +209,8 @@ else:
         print("Failed to parse the longitude")
         
 ```
+
+
 ```Python
 现在达成的目标：得到了经纬度数据并导入到CSV中
 需要改进的部分（ver3.1.2）
@@ -220,6 +224,7 @@ else:
 - 中途更换路径
 - 缺少xlrd库
 ```
+
 **version3.1.2**
 ```Python
 # 逻辑是先用selenium和soup得到网页，用crawl获取网页内容，parse解析需要的部分，main进行循环
@@ -477,8 +482,10 @@ def create_city_temperature(geo_excel:str='cities_with_coordinates.xlsx'):
 # 调用函数
 create_city_temperature()
 ```
+
+
 ```Python
-现在达成的成就：该代码可以把所要求的所有数据都下载下来了
+现在达成的成就：该代码可以把所要求的所有数据都下载下来了(但因为被网站限流了，所以失败，可以采用解决办法)
 下一步：
 - 继续探索如何下载到一个单独的文件夹中（optional）
 - 想要得到的数据：该样本受访所在月的平均气温和最高气温超过32度的天数，如果能找到日数据就是前七天的平均气温
@@ -488,8 +495,7 @@ create_city_temperature()
     - 问题：单个用户单次只能下载四个，解决办法[https://blog.csdn.net/junlong750/article/details/113605759]
     - 解决办法1：把任务拆分成多个小块或多线程处理[https://blog.csdn.net/VictoriaLy/article/details/112912419]
     - 解决办法2：使用selenium函数模拟鼠标在网页直接进行操作（注意：一定要sleep！）
-- 如何获取每日最高气温与平均气温
-    - 【0702】使用早上中午晚上的平均气温作为当日的温度，再计算该星期或该月的平均气温。累积超阈值温度为早中晚任何一个时间超过阈值时间即定义为1。
+    - 解决办法3：网页手动下载
 
 补救措施
 - 一些可能可以使用的数据
@@ -497,12 +503,11 @@ create_city_temperature()
     - NOAA数据库：https://blog.csdn.net/qq_39855224/article/details/112149945
     - 收费的空气污染数据：https://bbs.pinggu.org/thread-11169689-1-1.html
     - 收费的气温与空气污染数据：https://bbs.pinggu.org/thread-10557572-1-1.html
-
 - 使用VPN修改地址
     - https://vpn.nsspirt-cashf2.com/zh-cn/best-vpns-for-uk/#index_id10
 
 ```
-
+**Version3.1.3.(2)**
 ```Python
 # 前一步是在生成的cities_with_corrdinates里生成东西南北和经纬度的数值信息（此步可以用代码完成）
 # 还有一步是手动补齐了缺失的信息
@@ -587,10 +592,25 @@ create_city_temperature()
 ```Python
 现在达成的目标：下载了所有城市数据
 下一步目标：
-- 
+- 调用STATA已经清洗过的CHARLS数据库
+- 获取每个样本的ID,地址，采访月份和年份
+- 对每一个样本找到城市的excel，打开后计算该月份的平均温度和累计高温[平均气温与累计高温：使用早上中午晚上的平均气温作为当日的温度，再计算该星期或该月的平均气温。累积超阈值温度为早中晚任何一个时间超过阈值时间即定义为1]
 
 
 ```
+**Version3.1.4**
+```Python
+
+
+
+```
+
+
+
+
+
+
+
 
 
 
