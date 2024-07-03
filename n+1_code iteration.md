@@ -1,4 +1,5 @@
 ## 3_Get location data
+<details>
 **version3.1.0**
 ```Python
 # 逻辑是先用selenium和soup得到网页，用crawl获取网页内容，parse解析需要的部分，main进行循环
@@ -80,6 +81,7 @@ if longitude != -1:
 else:
         print("Failed to parse the longitude")
 ```
+<details>
 
 ```Python
 现在达成的目标：返回了一个值
