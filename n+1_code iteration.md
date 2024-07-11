@@ -600,11 +600,141 @@ create_city_temperature()
 ```
 **Version3.1.4**
 ```Python
+#将每个样本与当月平均气温匹配
+import pandas as pd
+
+import os
+## 高功能的计算器
+import numpy as np
+
+
+# 调用STATA已经清洗过的CHARLS数据库（把dta文件提到data，再选取一些提到sample）
+# 直接读取绝对路径下的CHARLS文件
+charls_data=pd.read_stata(r'C:\Users\Yalin\Desktop\Yellen Desktop\5 Personal research\1_data\1_data_clean\1_merge_data\CHARLS\CHARLS_ISO_2018.dta')
+
+charls_samples=charls_data[['ID','year18','month18','city_eng18']]
+# 这一步的作用是？
+print(charls_samples.head())
+
+# 将 year18 和 month18 转换为数值型
+charls_samples['year18'] = pd.to_numeric(charls_samples['year18'], errors='coerce')
+charls_samples['month18'] = pd.to_numeric(charls_samples['month18'], errors='coerce')
+
+
+# 设定温度阈值
+threshold=300
+# 定义temperature文件的路径csv_holder
+csv_folder=r'C:\Users\Yalin\Desktop\Yellen Desktop\2_Python\1_Environment_project\weather_data\temperature_data'
+
+##定义一个函数来计算每个样本的平均温度
+def calculate_temperature_metrics(city,month,year,csv_folder,threshold):
+    # 将城市的文件夹路径和文件名路径结合在一起
+    csv_file_path = os.path.join(csv_folder, f"{city}.csv")
+    
+    # 读取城市温度数据
+    city_data = pd.read_csv(csv_file_path)
+
+
+    # 提取日期中的年份和月份
+    ## city_data['time']:内容：这是城市数据中的时间数据列。它可能包含字符串格式的日期和时间
+    ## 利用pandas库中的函数，可以将字符串转换为日期对象
+    city_data['Date'] = pd.to_datetime(city_data['time'])
+    ## 从date列表中提取年份，储存在新的year中
+    city_data['Year'] = city_data['Date'].dt.year
+    city_data['Month'] = city_data['Date'].dt.month
+
+     # 打印转换后的日期数据的类型和前几行数据
+    print(f"\n转换后的'Date'列的类型: {city_data['Date'].dtype}")
+    print(f"转换后的'Date'列的前几行数据:\n{city_data[['Date', 'Year', 'Month']].head()}")
+
+
+    # 打印调试信息
+    print(f"\nProcessing city: {city}, Year: {year}, Month: {month}")
+    print(f"Data sample with Date, Year, Month, t2m:\n{city_data[['time', 'Date', 'Year', 'Month', 't2m']].head()}")
+# 打印年份和月份的唯一值
+    print(f"\nYear and Month values in city_data:\n{city_data[['Year', 'Month']].drop_duplicates()}")
+
+    
+    # 筛选出对应月份的数据
+    city_data_filter = city_data[(city_data['Year'] == year) & (city_data['Month'] == month)]
+    # 打印筛选后的数据样本
+    print(f"\n筛选后数据样本(城市={city}, 年份={year}, 月份={month}):")
+    print(f"筛选前的数据行数: {len(city_data)}")
+    print(f"筛选后的数据行数: {len(city_data_filter)}")
+    print(f"筛选后的数据样本:\n{city_data_filter[['Date', 'Year', 'Month', 't2m']].head()}")
+
+    
+    if city_data_filter.empty:
+        print(f"没有找到对应的数据：城市={city}, 年份={year}, 月份={month}")
+        return None, None
+    
+    # 计算每日平均气温
+    ## axis用于确定沿着行（axis==0）进行还是沿着列进行（axis==1），计算新的气温并储存在新的列
+    # city_data_filter['Daily_Avg_Temperature'] = city_data_filter[['t2m']].mean(axis=1)
+
+    # 打印调试信息
+    print(f"每日平均气温数据样本:\n{city_data_filter[['Date', ]].head()}")
+
+    
+    # 计算该月的平均气温
+    avg_temp = city_data_filter['t2m'].mean()
+    #打印调试信息
+    print(f"平均气温为{avg_temp}")
+    
+    # 计算累计高温天数
+    daily_max_temps = city_data_filter.groupby('Date')['t2m'].max()
+    high_temp_days = (daily_max_temps > threshold).sum()
+    
+    return avg_temp, high_temp_days
+
+# 步骤 2：计算每个样本的温度指标
+## results.append() 将计算得到的每个样本的结果以元组的形式追加到列表中。
+results = []
+
+for index, row in charls_samples.iterrows():
+    city = row['city_eng18']
+    month = row['month18']
+    year = row['year18']
+
+    avg_temp, high_temp_days = calculate_temperature_metrics(city, month, year,csv_folder, threshold)
+    # 将城市的文件夹路径和文件名路径结合在一起
+    csv_file_path = os.path.join(csv_folder, f"{city}.csv")
+    # 打印得到的数值
+    print(f"ID: {row['ID']}, Avg Temp: {avg_temp}, High Temp Days: {high_temp_days}")
+    
+
+    if avg_temp is not None and high_temp_days is not None:
+        results.append({'ID': row['ID'], 'avgtmp': avg_temp, 'cmltmp': high_temp_days})
+    else:
+        results.append({'ID': row['ID'], 'avgtmp': None, 'cmltmp': None})
+
+results_df = pd.DataFrame(results)
 
 
 
+# 将结果保存为 CSV 文件
+results_df.to_csv('path_to_final_data.csv', index=False)
+
+
+# 将计算结果合并到原始数据中
+final_df = charls_data.merge(results_df, on='ID')
+
+# 步骤 3：保存为新的dta文件
+final_df.to_stata('path_to_final_data.dta', write_index=False)
 ```
 
+```Python
+现在达成的目标：完成数据的匹配，进行回归
+下一步需要做的：
+- 确认没有日度数据可以使用（找之前的研究联系作者，询问如何得到日度数据）
+- 完成literature review的工作
+- 用月度数据，确定想用的变量：月度平均，绝对howave还是相对hotwave（如何计算）
+- 寻找AQI 相关的数据（经管之家优先购买，寻找下载渠道其次）
+- 使用FE和PSM初步探索模型的可行性（月度平均，绝对hotwave）
+
+[注意事项] 3.1.4的数据匹配每次时间都比较久，所以有什么想要get到的数据请一次性整理好
+
+```
 
 
 
