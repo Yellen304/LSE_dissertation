@@ -729,6 +729,7 @@ final_df.to_stata('path_to_final_data.dta', write_index=False)
 - 确认没有日度数据可以使用（找之前的研究联系作者，询问如何得到日度数据）
 - 完成literature review的工作
 - 用月度数据，确定想用的变量：月度平均，绝对howave还是相对hotwave（如何计算）
+- 考虑加入气温的二次项来观察非线性的关系
 - 寻找AQI 相关的数据（经管之家优先购买，寻找下载渠道其次）
 - 使用FE和PSM初步探索模型的可行性（月度平均，绝对hotwave）
 
