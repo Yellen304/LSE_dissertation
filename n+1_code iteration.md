@@ -1,6 +1,15 @@
 ## 3_Get location data
+**目录**
+```Python
+version3.1.0：扒下来网站上每个城市的经纬度数据
+version3.1.1：得到经纬度数据并保存至CSV
+version3.1.2：
+version3.1.3：
+
+```
 
 **version3.1.0**
+
 ```Python
 # 逻辑是先用selenium和soup得到网页，用crawl获取网页内容，parse解析需要的部分，main进行循环
 
