@@ -731,6 +731,7 @@ final_df.to_stata('path_to_final_data.dta', write_index=False)
 - 用月度数据，确定想用的变量：月度平均，绝对howave还是相对hotwave（如何计算）
 - 考虑加入气温的二次项来观察非线性的关系
 - 寻找AQI 相关的数据（经管之家优先购买，寻找下载渠道其次）
+    - 表格清理【https://blog.csdn.net/weixin_33068055/article/details/113326868】
 - 使用FE和PSM初步探索模型的可行性（月度平均，绝对hotwave）
 
 [注意事项] 3.1.4的数据匹配每次时间都比较久，所以有什么想要get到的数据请一次性整理好
