@@ -738,6 +738,18 @@ final_df.to_stata('path_to_final_data.dta', write_index=False)
 
 ```
 
+```Python
+#把EXCEL里的数据按照城市单独的存储出来成为一个EXCEL
+
+
+
+
+
+
+
+```
+
+
 
 
 
