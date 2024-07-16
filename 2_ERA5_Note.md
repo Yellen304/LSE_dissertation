@@ -11,7 +11,7 @@ Toolbox最左边是已经写好的代码，自己创建的数据集。中间是�
 3. 用CDS toolbox 提取某个经纬度的时序数据
 [retrieve data]-[load]-[copy]
 举个例子，下面是用CDS toolbox提取经纬度为（75，43）的2018-2020中678三个月每天四个个时段的数据。只需要在代码中修改你需要的时间地点
-```
+```Python
 import cdstoolbox as ct
 
 @ct.application(title='Extract point')
@@ -63,7 +63,7 @@ def extract_time_series(lon, lat):
     # e.g. if lon = 200 -> lat = -160.
     data_sel = ct.geo.extract_point(data, lon=lon, lat=lat)
     csv_data=ct.cdm.to_csv(data_sel)
-
+```
 
 ```Python
 import cdstoolbox as ct
@@ -119,9 +119,6 @@ def extract_time_series(lon, lat):
     csv_data=ct.cdm.to_csv(data_sel)
 
     return csv_data
-
-
-
 
 ```
 
